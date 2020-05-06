@@ -6,12 +6,16 @@ server.use(express.json());
 const sign = require('jsonwebtoken');
 
 //Inscritos
-const users = [];
+const users = [{
+    name: "Pepita",
+    LastName: "smith",
+    email: "pep@email.com"
+}];
 let inIncr = 0;
 
 server.post("/usuarios", (req, res) => {
     const id = inIncr++;
-    const newUser = {req.body, id};
+    const newUser = (req.body, id);
     user[id] = newUser;
     res.status().json(usuarios[id]);
 });

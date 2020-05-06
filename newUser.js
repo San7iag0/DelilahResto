@@ -2,7 +2,6 @@ const express = require('express');
 const server = express();
 server.use(express.json())
 
-
 const admin = {email: "ttsbp@hotmail.com", pass: "bvaefG85"}
 
 //Users 
@@ -12,14 +11,11 @@ const users = [
 
 /*
   {
-    id: 1,
     name: "Pepita",
     Last Name: "smith"
     email: "pep@email.com"
-    contraseña:
   }
 */
-
 
 // function to add a new user 
 function agregarLog(re, res, next){
@@ -34,6 +30,18 @@ server.post('/usuarios', verificar, (req, res) => {
     console.log(users);
     res.json(req.body);
 });
+
+// validated the user 
+function validarUsuario(req, res, next){
+  const {email, pass} = req.body;
+  if (email !== admin.email || pass !== admin.pass){
+    res.status(400)
+    .json('usuario o clave incorrecta');
+  }else {
+    console.log('validacion exitosa');
+    next();
+  }
+} 
 
 server.post('/admin', validarUsuario, (req, res) => {
     res.json('Acceso correcto')
@@ -53,7 +61,7 @@ server.listen(8080, () => {
 
 
 //Verified if the Email was repeat 
-/*
+
 const verificar = (req, res, next) => {
   const { email } = req.body;
   console.log(email);
@@ -68,18 +76,6 @@ const verificar = (req, res, next) => {
     }
   });
 }
-*/
 
-// validated the user 
-/*
-function validarUsuario(req, res, next){
-  const {email, pass} = req.body;
-  if (email !== admin.email || pass !== admin.pass){
-    res.status(400)
-    .json('usuario o clave incorrecta');
-  }else {
-    console.log('validacion exitosa');
-    next();
-  }
-}
-*/
+
+
