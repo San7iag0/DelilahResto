@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/San7iag0/DelilahResto#readme",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {}
 }
