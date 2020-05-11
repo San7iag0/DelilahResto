@@ -3,7 +3,6 @@ const server = express();
 server.use(express.json())
 const email;
 const pass;
-const admin = {email: "ttsbp@hotmail.com", pass: "bvaefG85"}
 
 //Users 
 const users = [
@@ -12,15 +11,19 @@ const users = [
 
 /*
   {
-    name: "Pepita",
-    Last Name: "smith"
-    email: "pep@email.com"
+    Usuario: "Pepita",
+    Nombre y Apellido: "smith"
+    Correo electronico: "pep@email.com"
+    Telefono:
+    Direccion de envio:
+    Contraseña:
   }
 */
 
-// function to created a new user 
-function agregarLog(re, res, next){
-    console.log("acceso autorizado: " + re.path);
+//ENDPOINTS
+// function to created new users 
+function agregarLog(req, res, next){
+    console.log("acceso autorizado: " + req.path);
     next();
 }
 server.use(agregarLog);
@@ -31,6 +34,23 @@ server.post('/users/add', verificar, (req, res) => {
     console.log(users);
     res.json(req.body);
 });
+
+//Verified if the Email is not repeat 
+const verificar = (req, res, next) => {
+  const { email } = req.body;
+  console.log(email);
+  users.forEach( users => {
+
+      console.log(user.email);
+    if (user.email === email) {
+        
+      res.json({error: 'Email repetido'})
+    } else {
+      next();
+    }
+  });
+}
+
 
 // validated the user 
 
@@ -58,27 +78,4 @@ server.get('/users', (req, res) => {
 server.listen(8080, () => {
     console.log('servidor corriendo');
 })
-
-
-
-
-
-//Verified if the Email was repeat 
-
-// const verificar = (req, res, next) => {
-//   const { email } = req.body;
-//   console.log(email);
-//   users.forEach( user => {
-
-//       console.log(user.email);
-//     if (user.email === email) {
-        
-//       res.json({error: 'Email repetido'})
-//     } else {
-//       next();
-//     }
-//   });
-// }
-
-
 
