@@ -7,18 +7,18 @@ server.use(express.json())
 
 //Users 
 const users = [{
-  name: "", 
-  email: ""
+  name: "pedro", 
+  email: "pedro@pp.com"
 }]
 
 /*
   {
-    Usuario: "Pepita",
-    Nombre y Apellido: "smith"
-    Correo electronico: "pep@email.com"
-    Telefono:
-    Direccion de envio:
-    Contraseña:
+    "UserName": "Pepita",
+    "fullName": "smith"
+    "Email": "pep@email.com"
+    "phone": 123456
+    "Address": 
+    "password": 
   }
 */
 
@@ -42,7 +42,7 @@ server.post('/users/add', (req, res) => {
 // validated the user 
 function validateUser(req, res, next){
   const {email, pass} = req.body;
-  if (email == admin.email || pass == admin.pass){
+  if (email !== admin.email || pass !== admin.pass){
     res.status(400)
     .json('User or password incorrect');
   }else {
