@@ -8,6 +8,14 @@ server.use(express.json())
 // const Email = email;
 // const Pass = pass;
 
+// const {
+//   userName, 
+//   fullName, 
+//   email, 
+//   phone, 
+//   address,
+// } = require("./mongoose/userModel.js");
+
 const users = [
   {
     "userName": "Pepita",
