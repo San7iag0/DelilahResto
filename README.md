@@ -1,2 +1,0 @@
-# DelilahResto
- Proyecto acamica 
