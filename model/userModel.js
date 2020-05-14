@@ -2,15 +2,16 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
 
 const UserSchema = new Schema({ 
-    userName: string,
-    fullName: string,
+    userName: String,
+    fullName: String,
     email: {type: String, unique: true, lowecase: true},
     phone: Number, 
-    address: {type: string, unique: true},
-    password: {type: string, select: false} 
+    address: {type: String, unique: true},
+    password: {type: String, select: false},    
+    admin: Boolean
 })
 // created password and hash to incrypted 
 UserSchema.pre('save', (next) => {
@@ -30,3 +31,4 @@ UserSchema.pre('save', (next) => {
 })
 
 module.exports = mongoose.model('User', UserSchema)
+

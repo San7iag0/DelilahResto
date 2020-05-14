@@ -1,20 +1,8 @@
 const express = require('express');
 const server = express();
-const jsonWTok = require("jsonwebtoken");
+// const jsonWTok = require("jsonwebtoken");
 
 server.use(express.json())
-
-
-// const Email = email;
-// const Pass = pass;
-
-// const {
-//   userName, 
-//   fullName, 
-//   email, 
-//   phone, 
-//   address,
-// } = require("./mongoose/userModel.js");
 
 const users = [
   {
@@ -23,7 +11,7 @@ const users = [
     "email": "pep@email.com",
     "phone": 123456,
     "Address": "123 calle falsa,sprinfield",
-    "password": "123abc",
+    "password": "",
   },  
 {
   name: "pedro", 
@@ -31,7 +19,6 @@ const users = [
 }]
 
 const products = [{}]
-
 
 /*
   {
@@ -52,30 +39,31 @@ function agregarLog(req, res, next){
 }
 server.use(agregarLog);
 
-
+//add new users 
 server.post('/users/add', (req, res) => {
-    // const user = req.body;
-    //const {userName, fullName, email, phone, address, password} = req.body;
-    // if (userName.lenght !== 0 || password.lenght !== 0){
-    //   return res.status(400)
-    //   .then(
-    //     users.push(user)
-    //     res.status(200).json({userName, fullName, email, phone, address, password });
-    //   )  
-    // }
-    
-    // else { 
-    //   res.status(500).json({ error: "Error" });
-    // }
+    const addedUser = req.body;
+
+      const {email, password} = req.body;
+      console.log(email.lenght);
+      console.log(password);
+      for(var i = 0; i < users.lenght; i++){
+          if( email !== users[i].email ){
+            users.push(addedUser)
+          return res.status(200).json({ message: "user added successfully", list: users});
+      }
+      return res.status(500).json({ error: "Error" });}
+        // 
+        //email && email.lenght !== 0 && password && password.lenght !== 0 
+      
+      
     console.log(users);
-    //res.json(req.body);
 });
 
 
 // validated the user 
 function validateUser(req, res, next){
   const {email, pass} = req.body;
-  if (email !== admin.email || pass !== admin.pass){
+  if (email !== user.email || pass !== user.pass){
     res.status(400)
     .json('User or password incorrect');
   }else {
