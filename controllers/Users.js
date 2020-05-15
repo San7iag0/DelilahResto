@@ -60,10 +60,10 @@ server.post('/users/add', (req, res) => {
 });
 
 
-// validated the user 
+// validated Admin user 
 function validateUser(req, res, next){
   const {email, pass} = req.body;
-  if (email !== user.email || pass !== user.pass){
+  if (email && email !== admin.email && pass && pass !== admin.pass){
     res.status(400)
     .json('User or password incorrect');
   }else {
@@ -71,20 +71,34 @@ function validateUser(req, res, next){
     next();
   }
 } 
-
+// ENP login admin
 server.post('/admin', validateUser, (req, res) => {
     res.json('access success')
 });
-
-server.get("/products/get", (req, res) => {
-  res.json(products)
-})
 
 //see list of users 
 server.get('/users', (req, res) => {
   res.json(users)
   res.status(200);
 })
+
+//products 
+// server.get("/products/get", (req, res) => {
+//   res.json(products)
+// })
+
+// ENPs Admin
+
+//ENP created a product
+server.post("/products/add", validateUser, (req, res) => {
+  if(req.body.user.admin == true){
+    let{name, price, code} = req.body;
+
+  }
+})
+
+
+
 
 
 server.listen(3000, () => {
