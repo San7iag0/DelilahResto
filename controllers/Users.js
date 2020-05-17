@@ -80,7 +80,7 @@ server.post('/admin', validateUser, (req, res) => {
 server.get('/users', (req, res) => {
   res.json(users)
   res.status(200);
-})
+})    
 
 //products 
 // server.get("/products/get", (req, res) => {
