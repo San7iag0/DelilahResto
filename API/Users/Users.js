@@ -92,7 +92,7 @@ server.get('/users', (req, res) => {
 server.post("/products/add", validateUser, (req, res) => {
   if(req.body.user.admin == true){
     let{name, price, code} = req.body;
-    res.addProduct(name, price, code);
+    addProduct(name, price, code);
     res.status(200).json({message: "Product added successfully", list: products})
   }else {
     res.status(401).json({message: "No Authorize"})
