@@ -97,7 +97,7 @@ server.post("/products/add", validateUser, (req, res) => {
   }else {
     res.status(401).json({message: "No Authorize"})
   }
-  return res.status(500).json({ error: "Error" });
+  
 
 });
 
