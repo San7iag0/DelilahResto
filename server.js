@@ -5,6 +5,10 @@ const server = express();
 server.use(express.json());
 const sign = require('jsonwebtoken');
 
+const prducts = require("./API/Product/products");
+const User = require("./API/Users/Users");
+const order = require("./API/Order/order");
+
 //Inscritos
 const users = [{
     name: "Pepita",
@@ -22,7 +26,7 @@ server.post("/usuarios", (req, res) => {
 
 
 server.listen(3000, () => {
-    console.log('servidor corriendo');
+    console.log('Server running');
 })
 
 

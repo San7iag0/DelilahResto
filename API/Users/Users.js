@@ -47,7 +47,7 @@ server.use(agregarLog);
 //add new users 
 server.post('/users/add', (req, res) => {
     const addedUser = req.body;
-
+    const id = inIncr++;
       const {email, password} = req.body;
       console.log(email.lenght);
       console.log(password);
