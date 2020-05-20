@@ -1,6 +1,7 @@
 const express = require('express');
 const server = express();
 // const jsonWTok = require("jsonwebtoken");
+//const sequelize = require('sequelize')
 
 server.use(express.json())
 
@@ -11,7 +12,7 @@ const users = [
     "email": "pep@email.com",
     "phone": 123456,
     "Address": "123 calle falsa,sprinfield",
-    "password": "",
+    "password": "123456",
     "admin": "true"
   },  
 {
@@ -67,17 +68,17 @@ server.post('/users/add', (req, res) => {
 
 // validated Admin user 
 function validateUser(req, res, next){
-  const {email, pass} = req.body;
-  if (email && email !== admin.email && pass && pass !== admin.pass){
+  const {email, password} = req.body;
+  if (email && email !== admin.email && password && password !== admin.password){
     res.status(400)
     .json('User or password incorrect');
   }else {
-    console.log('sucessful validation');
+    console.log('validated successfully');
     next();
   }
 } 
 // ENP login admin
-server.post('/admin', validateUser, (req, res) => {
+server.post('/users/login', validateUser, (req, res) => {
     res.json('access success')
 });
 
@@ -88,24 +89,7 @@ server.get('/users', (req, res) => {
 })    
 
 
-//ENP created a product
-server.post("/products/add", validateUser, (req, res) => {
-  if(req.body.user.admin == true){
-    let{name, price, code} = req.body;
-    addProduct(name, price, code);
-    res.status(200).json({message: "Product added successfully", list: products})
-  }else {
-    res.status(401).json({message: "No Authorize"})
-  }
-  
 
-});
-
-// ENP get list of Products 
-server.get("/products", (req, res) => {
-  res.json(products);
-  res.status(200);
-})
 
 
 
