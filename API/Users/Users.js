@@ -26,16 +26,6 @@ const products = [{
   "code": "1"
 }]
 
-/*
-  {
-    "userName": "Pepita",
-    "fullName": "smith",
-    "email": "pep@email.com",
-    "phone": 123456,
-    "Address":  ,
-    "password":  ,
-  }
-*/
 
 //ENDPOINTS
 // ENP new users 
@@ -77,6 +67,20 @@ function validateUser(req, res, next){
     next();
   }
 } 
+///////////////////
+
+// server.post("/login", (res, req, next) => {
+//   user.find({ email: req.body.email})
+//   .then(user => {
+//     if (user.lenght < 1 ){
+//       return res.status(401).json({
+//         message: "authentication fail"
+//       });
+//     }
+
+//   })
+// })
+
 // ENP login admin
 server.post('/users/login', validateUser, (req, res) => {
     res.json('access success')
@@ -88,17 +92,38 @@ server.get('/users', (req, res) => {
   res.status(200);
 })    
 
+//ENP created a product
+server.post("/products/add", validateUser, (req, res) => {
+  if(req.body.user.admin == true){
+    let{name, price, code} = req.body;
+    addProduct(name, price, code);
+    res.status(200).json({message: "Product added", list: products});
+  }else {
+    res.status(401).json({message: "No Authorize"});
+  }
+  
 
+});
 
+// ENP get list of Products 
+server.get("/products", (req, res) => {
+  res.json(products);
+  res.status(200);
+})
 
-
+//EMP delet a product
+server.delete("products/delete", (req, res) => {
+  if (req.user.admin == true){
+  let id = req.query.id;
+  delProduct(id);
+  res.status(200).json({message: "Product deleted", list: products});
+  } else {
+    res.status(401).json({message: "no Authorize"});
+  }
+})
 
 
 
 server.listen(3000, () => {
     console.log('server Runing');
 })
-
-
-
-//npm i express mysql2 sequelize 
