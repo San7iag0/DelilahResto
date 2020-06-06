@@ -16,4 +16,4 @@ router.post("/singup", (res, req, next) => {
     }) ;  
 }
 
-module.exports = router; 
+module.exports = router;
