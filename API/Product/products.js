@@ -2,7 +2,7 @@ const express = require('express');
 const server = express();
 
 //ENP created a product
-server.post("/products/add", validateUser, (req, res) => {
+server.post("/products/add", /*validateUser,*/ (req, res) => {
     if(req.body.user.admin == true){
       let{name, price, code} = req.body;
       addProduct(name, price, code);
