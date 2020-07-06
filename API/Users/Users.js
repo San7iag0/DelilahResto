@@ -55,6 +55,18 @@ server.post('/users/add', (req, res) => {
     console.log(users);
 });
 
+// app.post('/add', (req, res) => {
+//   let newUser = "INSERT INTO `base_resto`.`users` (`UserName`, `fullName`, `email`, `phone`, `address`, `admin`) VALUES ('casas', 'santi beja', 'fghj', '23456', 'fghjk', true)";
+//   db.query(newUser, (err,  result) => {
+//       if(err){
+//           console.log(err);
+//       }else {
+//           console.log(result);
+//           res.send('added');
+//       }
+//   });
+// });
+
 
 // validated Admin user 
 function validateUser(req, res, next){
