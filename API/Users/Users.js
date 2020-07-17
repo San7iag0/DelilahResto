@@ -14,11 +14,8 @@ const users = [
     "Address": "123 calle falsa,sprinfield",
     "password": "123456",
     "admin": "true"
-  },  
-{
-  name: "pedro", 
-  email: "pedro@pp.com"
-}]
+  }
+]
 
 const products = [{
   "name": "empanada",
@@ -137,5 +134,5 @@ server.delete("products/delete", (req, res) => {
 
 
 server.listen(3000, () => {
-    console.log('server Runing');
+    console.log('server Runing on port 3k');
 })
