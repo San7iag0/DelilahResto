@@ -7,9 +7,6 @@ const verifyToken = require('../Users/userControllers');
 const app = express();
 
 app.use(bodyParser.json());
-// const router = express.Router();
-
-const exisUser = require('../Users/userRoutes');
 
 //EMP to get the product list 
 app.get("/", (req, res) => {
@@ -46,8 +43,6 @@ app.post("/add", verifyToken, (req, res) => {
     });
 });
 
-
-//check 
 // get information of a product By the ID 
 app.get("/:productId", (req, res) => {
   const id = req.params.productId;
@@ -66,9 +61,6 @@ app.get("/:productId", (req, res) => {
     });
 });
 
-
-//check 
-//check updated products just by the admin 
 app.patch('/:productId', verifyToken, (req, res) => {
   const id = req.params.productId;
     let sql = `UPDATE base_resto.products SET productName = '${req.body.productName}', price = ${req.body.price} WHERE productsId = ${id}`;
