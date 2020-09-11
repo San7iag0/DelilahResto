@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 
 const exisUser = require('../Users/userRoutes');
 
-
 //EMP to get the product list 
 app.get("/", (req, res) => {
     let sql = 'SELECT * FROM base_resto.products;';
@@ -29,7 +28,6 @@ app.get("/", (req, res) => {
     }); 
 });
 
-
 //Endpoint Create
 app.post("/add", verifyToken, (req, res) => {
     let sql = `INSERT INTO base_resto.products SET productName = '${req.body.productName}', price = ${req.body.price}`;
@@ -37,11 +35,11 @@ app.post("/add", verifyToken, (req, res) => {
       if(err){
         console.log(err);
         res.status(400).json({
-          message: 'bad resquest'
+          message: 'Bad resquest'
         });
       } else {
         res.status(200).json({
-          message: 'Product created',
+          message: 'Product created successful',
           list: result
         });
     }      
@@ -51,12 +49,14 @@ app.post("/add", verifyToken, (req, res) => {
 
 //check 
 // get information of a product By the ID 
-app.get("/:productId", (req, res, next) => {
+app.get("/:productId", (req, res) => {
   const id = req.params.productId;
     let sql = `SELECT * FROM base_resto.products WHERE productsId = ${id}`; 
     db.query(sql, (err, result) => {
       if(err){
-        console(err);
+        res.status(400).json({
+          message: "Id does not exist"
+        })
       } else {
         res.status(200).json({
           message: 'product details',
@@ -74,26 +74,32 @@ app.patch('/:productId', verifyToken, (req, res) => {
     let sql = `UPDATE base_resto.products SET productName = '${req.body.productName}', price = ${req.body.price} WHERE productsId = ${id}`;
     db.query(sql, (err, result) => {
       if(err){
-        console.log(err);
+        res.status(403).json({
+          message: "Forbidden, you are no allowed",
+          list: err
+        });
       } else {
         res.status(200).json({
-          message: `you updated the product id: '${id}'`,
+          message: `you updated successfully the product id: '${id}'`,
           list: result
         });
       }
     });
 });
 
-// check 
+
 app.delete('/:productId', verifyToken, (req, res, next) => {
   const id = req.params.productId;
     const sql = `DELETE FROM base_resto.products WHERE productsId = ${id}`;
     db.query(sql, (err, result) => {
       if(err){
-        console.log(err);
+        res.status(403).json({
+          message: "Forbidden, you are no allowed",
+          list: err
+        });
       } else {
         res.status(200).json({
-          message: `you have errace the product ID: ${id}`,
+          message: `you have delete succesfully the product ID: ${id}`,
           list: result
         });
       }

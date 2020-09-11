@@ -9,25 +9,6 @@ const saltRounds = 10;
 
 app.use(bodyPaser.json());
 
-const adminUsers = [
-    {
-        UserName: "santi",
-        fullName: "Beja ",
-        email: "santi@email.com",
-        phone: 345678,
-        address: "123 fake st",
-        admin: true
-    },
-    {
-        UserName: "Pepita",
-        fullName: "smith",
-        email: "pep@email.com",
-        phone: 345678,
-        address: "null",
-        admin: true
-    }
-]
-
 // -----------------------
 // verify  jwt save on headers 
 // check, change that ws name

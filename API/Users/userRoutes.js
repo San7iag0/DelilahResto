@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 const db = require('../../SQL/SQLRoutes');
 const bcrypt = require('bcrypt');
 const verifyToken = require('./userControllers')
@@ -49,7 +48,6 @@ app.get('/', verifyToken, (req, res) => {
   });
 });
 
-// check esta mierda no esta funcionando revisar manejo de errores 
 // EMP to get info by ID
 app.get("/:userId", verifyToken, (req, res) => {
     const id = req.params.userId;
@@ -68,8 +66,6 @@ app.get("/:userId", verifyToken, (req, res) => {
     });
 });
 
-// check for data when you save on db
-// CHECK for Admin
 // EMP to created Users
 app.post('/create', (req, res) => { 
   bcrypt.hash(`${req.body.password}`, saltRounds, function (err, hash) {   
@@ -90,25 +86,23 @@ app.post('/create', (req, res) => {
   });
 });
 
-
-// check, not working properly, the fucking error validation is not f working 
 //  EMP to update users
 app.patch('/:userId', verifyToken, (req, res) => {
   const id = req.params.userId;
   let sql = `UPDATE base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}' 
   WHERE userId = ${id}`;
-  db.query(sql, (err, result) => {
-    if(err){
-      console.log(err);
-      res.status(400).json({
-        message: 'bad resquest'
-      });
-    } else {
-      res.status(200).json({
-        message: `you upgrade the user ID: ${id}`,
-        list: result 
-      });
-    }
+    db.query(sql, (err, result) => {
+      if(err){
+        console.log(err);
+        res.status(400).json({
+          message: 'bad resquest'
+        });
+      } else {
+        res.status(200).json({
+          message: `you upgrade the user ID: ${id}`,
+          list: result 
+        });
+      }
     });
 });
 
