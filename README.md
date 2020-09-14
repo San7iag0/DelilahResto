@@ -7,4 +7,4 @@
 
 ## Documentation 
 
-https://virtserver.swaggerhub.com/San7iag0/Delilah_Resto/1.0.0
+https://app.swaggerhub.com/apis/San7iag0/Delilah_Resto/1.0.0
