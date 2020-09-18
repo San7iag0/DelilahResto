@@ -70,9 +70,9 @@ app.get("/:userId", verifyToken, (req, res) => {
 app.post('/create', (req, res) => { 
   bcrypt.hash(`${req.body.password}`, saltRounds, function (err, hash) {   
     let sql = `INSERT INTO base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}', password = '${hash}'`;
-    db.query(sql, (err,  result) => {
-      if(err){
-        console.log(err);
+    db.query(sql, (dberr,  result) => {
+      if(dberr){
+        console.log(dberr);
         res.status(400).json({
           message: 'bad resquest'
         });
