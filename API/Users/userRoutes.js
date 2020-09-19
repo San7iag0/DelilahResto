@@ -4,7 +4,7 @@ const db = require('../../SQL/SQLRoutes');
 const bcrypt = require('bcrypt');
 const verifyToken = require('./userControllers')
 
-const saltRounds = 10;
+const saltRounds = 12;
 
 const app = express();
 app.use(bodyParser.json());
@@ -69,14 +69,14 @@ app.get("/:userId", verifyToken, (req, res) => {
 // EMP to created Users
 app.post('/create', (req, res) => { 
   bcrypt.hash(`${req.body.password}`, saltRounds, function (err, hash) {   
-    let sql = `INSERT INTO base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}', password = '${hash}'`;
+    let sql = `INSERT INTO base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}', password = '${hash}', admin = ${req.body.admin}`;
     db.query(sql, (dberr,  result) => {
       if(dberr){
-        console.log(dberr);
-        res.status(400).json({
+          res.status(400).json({
           message: 'bad resquest'
         });
       } else {
+        console.log(hash)
         res.status(200).json({
           message: 'User create Successfully',
           list: result

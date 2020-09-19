@@ -24,7 +24,8 @@ CREATE TABLE `users` (
   `email` varchar(45) NOT NULL,
   `phone` decimal(20,0) NOT NULL,
   `address` varchar(80) DEFAULT NULL,
-  `admin` tinyint(1) DEFAULT 0,
+  `password` varchar(100) NOT NULL,
+  `admin` BOOLEAN,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 

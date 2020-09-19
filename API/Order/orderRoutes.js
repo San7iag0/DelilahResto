@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 const app = express();
 const db = require('../../SQL/SQLRoutes');
 const verifyToken = require('../Users/userControllers');
@@ -25,7 +24,7 @@ app.get("/", verifyToken, (req, res) =>{
 });
 
 // EMP to get orders by userId
-app.get("/:userId", (req, res) => {
+app.get("/:userId", verifyToken, (req, res) => {
     const id = req.params.userId;
         let sql = `SELECT * FROM base_resto.orders WHERE userId = ${id}`;
         db.query(sql, (err, result) => {

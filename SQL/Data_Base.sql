@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users(
     email varchar(45) NOT NULL,
     phone numeric(20) NOT NULL,
     address varchar(80),
-    admin BOOLEAN DEFAULT FALSE,
+    admin BOOLEAN,
     PRIMARY KEY(userId)
 )ENGINE = INNODB; 
 

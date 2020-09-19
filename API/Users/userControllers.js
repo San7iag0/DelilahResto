@@ -4,10 +4,9 @@ const bodyPaser = require("body-parser");
 const jwt = require ('jsonwebtoken');
 const db = require('../../SQL/SQLRoutes');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 
 app.use(bodyPaser.json());
+
 
 // FORMAT OF TOKKEN 
 function verifyToken(req, res, next){
@@ -29,12 +28,10 @@ function verifyToken(req, res, next){
     }
 }
 
-
 app.post('/login', (req, res) => {
     let authEmail = req.body.email;
     let sql = `SELECT * FROM base_resto.users WHERE email = '${authEmail}'`;
     db.query(sql, (err, result) => {
-      console.log(result);
       if(result[0].email != authEmail ){
         res.status(401).json({
           message: 'Unauthorized, wrong Email Or password'
@@ -47,14 +44,18 @@ app.post('/login', (req, res) => {
               message: 'Forbidden, Wrong Email Or password'
             })
           } else {
-            res.status(200).json({
-              message:'you have access now'
+            const user = result[0].email
+            jwt.sign({user: user}, "secretKey", (jwterr, token) => {
+            res.json({
+              token, 
             });
+            console.log(token)
+            res.cookie('token', token)
+          });
           }
         });
       }
     });
   });
-
 
 module.exports = app;
