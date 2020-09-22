@@ -76,7 +76,6 @@ app.post('/create', (req, res) => {
           message: 'bad resquest'
         });
       } else {
-        console.log(hash)
         res.status(200).json({
           message: 'User create Successfully',
           list: result
@@ -93,7 +92,6 @@ app.patch('/:userId', verifyToken, (req, res) => {
   WHERE userId = ${id}`;
     db.query(sql, (err, result) => {
       if(err){
-        console.log(err);
         res.status(400).json({
           message: 'bad resquest'
         });
