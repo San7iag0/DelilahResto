@@ -7,6 +7,8 @@ const bcrypt = require('bcrypt');
 
 app.use(bodyPaser.json());
 
+const secretKey = '$2y$12$kreEn1FLtAs9wf8iHudSyefxra4.NyK8NXEd7gKoxE6BxDXDDiuii';
+
 
 // FORMAT OF TOKKEN 
 function verifyToken(req, res, next){
@@ -28,12 +30,18 @@ function verifyToken(req, res, next){
     }
 }
 
+// 
+
 app.post('/login', (req, res) => {
     let authEmail = req.body.email;
     let sql = `SELECT * FROM base_resto.users WHERE email = '${authEmail}'`;
+    console.log(authEmail)
     db.query(sql, (err, result) => {
-      if(result[0].email != authEmail ){
+      console.log(result);
+      if(result[0].email != authEmail){
+        console.log(res);
         res.status(401).json({
+          // wrong Email
           message: 'Unauthorized, wrong Email Or password'
         });
       } else {
@@ -41,17 +49,27 @@ app.post('/login', (req, res) => {
           if(resultCompare !== true){
             res.status(403).json({
               list: bcryptErr,
+              // wrong password
               message: 'Forbidden, Wrong Email Or password'
             })
           } else {
             const user = result[0].email
-            jwt.sign({user: user}, "secretKey", (jwterr, token) => {
-            res.json({
-              token, 
-            });
-            console.log(token)
-            res.cookie('token', token)
-          });
+            jwt.sign({ user }, secretKey, (jwtErr, token) => {
+              res.json({
+                message: 'you have access now',
+                list: token
+              })
+            })
+
+
+            // 
+          //   jwt.sign({user: user}, "secretKey", (jwterr, token) => {
+          //   res.json({
+          //     token, 
+          //   });
+          //   console.log(token)
+          //   res.cookie('token', token)
+          // });
           }
         });
       }
