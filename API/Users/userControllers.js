@@ -11,26 +11,43 @@ const secretKey = '$2y$12$kreEn1FLtAs9wf8iHudSyefxra4.NyK8NXEd7gKoxE6BxDXDDiuii'
 
 
 // FORMAT OF TOKKEN 
-function verifyToken(req, res, next){
-    // get auth header value
-    const bearerHeader = req.headers['authorization'];
-    // check if bearer is undefined
-    if(typeof bearerHeader !== 'undefined'){
-        // split at the space 
-        const bearer = bearerHeader.split(' ');
-        // get token from array
-        const bearerToken = bearer[1];
-        // set the token
-        req.token = bearerToken;
-        next(); 
-    } else {
-        res.status(403).json({
-            message: 'you dont have access'
-        });
-    }
+// function verifyToken(req, res, next){
+//     // get auth header value
+//     const bearerHeader = req.headers['authorization'];
+//     // check if bearer is undefined
+//     if(typeof bearerHeader !== 'undefined'){
+//         // split at the space 
+//         const bearer = bearerHeader.split(' ');
+//         // get token from array
+//         const bearerToken = bearer[1];
+//         // set the token
+//         req.token = bearerToken;
+//         next(); 
+//     } else {
+//         res.status(403).json({
+//             message: 'you dont have access'
+//         });
+//     }
+// }
+
+// use the verify function jwt to confirm the token from the user
+function verifyToken ( req, res, next ) {
+  try{
+    const token = req.headers.Authorization.split(' ')[1];
+    const decode = jwt.verify( token, 'secretKey' );
+    return (decode)? console.log(decode) : 'esto es un error'
+    // return (decode)? req.us
+  } catch (err){
+    console.log(err)
+  }
+
 }
 
-// 
+app.get('/saludo', verifyToken, (req, res) => {
+  res.json({
+    message: 'hola amigos'
+  })
+})
 
 app.post('/login', (req, res) => {
     let authEmail = req.body.email;
@@ -60,16 +77,6 @@ app.post('/login', (req, res) => {
                 list: token
               })
             })
-
-
-            // 
-          //   jwt.sign({user: user}, "secretKey", (jwterr, token) => {
-          //   res.json({
-          //     token, 
-          //   });
-          //   console.log(token)
-          //   res.cookie('token', token)
-          // });
           }
         });
       }
