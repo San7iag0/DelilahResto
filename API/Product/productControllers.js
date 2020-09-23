@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const db = require('../../SQL/SQLRoutes');
-const verifyToken = require('../Users/userControllers');
+const verifyToken = require('../../middlewares/middlewares');
+
 
 const app = express();
 
@@ -46,19 +47,20 @@ app.post("/add", verifyToken, (req, res) => {
 // get information of a product By the ID 
 app.get("/:productId", (req, res) => {
   const id = req.params.productId;
-    let sql = `SELECT * FROM base_resto.products WHERE productsId = ${id}`; 
-    db.query(sql, (err, result) => {
-      if(err){
-        res.status(400).json({
-          message: "Id does not exist"
-        })
-      } else {
-        res.status(200).json({
-          message: 'product details',
-          list: result
-        })
-      }
-    });
+  let sql = `SELECT * FROM base_resto.products WHERE productsId = ${id}`; 
+  db.query(sql, (err, result) => {
+    if(err){
+      res.status(400).json({
+        message: "Id does not exist",
+        list: err
+      })
+    } else {
+      res.status(200).json({
+        message: 'product details',
+        list: result
+      })
+    }
+  });
 });
 
 app.patch('/:productId', verifyToken, (req, res) => {
@@ -80,7 +82,7 @@ app.patch('/:productId', verifyToken, (req, res) => {
 });
 
 
-app.delete('/:productId', verifyToken, (req, res, next) => {
+app.delete('/:productId', verifyToken, (req, res) => {
   const id = req.params.productId;
     const sql = `DELETE FROM base_resto.products WHERE productsId = ${id}`;
     db.query(sql, (err, result) => {

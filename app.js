@@ -13,10 +13,10 @@ app.use(function (err, req, res, next){
     next();
   });
 
-const productRoutes = require("./API/Product/productRoutes.js");
-const orderRoutes  = require("./API/Order/orderRoutes");
-const usersRoutes = require("./API/Users/userRoutes");
-const usersControllers = require("./API/Users/userControllers");
+const productRoutes = require("./API/Product/productControllers.js");
+const orderRoutes  = require("./API/Order/orderControllers");
+const usersRoutes = require("./API/Users/userControllers");
+const usersControllers = require("./API/Users/userControllersLogin");
 
 app.unsubscribe((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*"); 

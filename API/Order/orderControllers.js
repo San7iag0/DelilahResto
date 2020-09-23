@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const db = require('../../SQL/SQLRoutes');
-const verifyToken = require('../Users/userControllers');
+const verifyToken = require('../../middlewares/middlewares');
 
 app.use(bodyParser.json());
 
@@ -41,7 +41,7 @@ app.get("/:userId", verifyToken, (req, res) => {
 
 
 // EMP to create orders
-app.post('/add', verifyToken, (req, res) => {
+app.post('/create', verifyToken, (req, res) => {
     const userId = req.body.userId;
         let sql = `INSERT INTO base_resto.orders SET products = "${req.body.products}", address = "${req.body.address}", userId = ${userId}`;
         db.query(sql, (err, result) => {
