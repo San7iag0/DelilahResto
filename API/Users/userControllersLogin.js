@@ -30,7 +30,11 @@ app.post('/login', (req, res) => {
               message: 'Forbidden, Wrong Email Or password'
             })
           } else {
-            const user = result[0].email
+            const user = {
+              user: result[0].userName,
+              email: result[0].email,
+              admin: result[0].admin
+            }
             jwt.sign({ user }, secretKey, (jwtErr, token) => {
               res.json({
                 message: 'you have access now',
