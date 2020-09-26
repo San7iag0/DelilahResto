@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const db = require('../../SQL/SQLRoutes');
 const verifyToken = require('../../middlewares/middlewares');
+const verifyAdmin = require('../../middlewares/middlewares')
 
 
 const app = express();
@@ -27,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 //Endpoint Create
-app.post("/add", verifyToken, (req, res) => {
+app.post("/add", verifyToken, verifyAdmin, (req, res) => {
     let sql = `INSERT INTO base_resto.products SET productName = '${req.body.productName}', price = ${req.body.price}`;
     db.query(sql, (err, result) => {
       if(err){
@@ -45,7 +46,7 @@ app.post("/add", verifyToken, (req, res) => {
 });
 
 // get information of a product By the ID 
-app.get("/:productId", (req, res) => {
+app.get("/:productId", verifyAdmin, (req, res) => {
   const id = req.params.productId;
   let sql = `SELECT * FROM base_resto.products WHERE productsId = ${id}`; 
   db.query(sql, (err, result) => {
@@ -63,7 +64,7 @@ app.get("/:productId", (req, res) => {
   });
 });
 
-app.patch('/:productId', verifyToken, (req, res) => {
+app.patch('/:productId', verifyToken, verifyAdmin, (req, res) => {
   const id = req.params.productId;
     let sql = `UPDATE base_resto.products SET productName = '${req.body.productName}', price = ${req.body.price} WHERE productsId = ${id}`;
     db.query(sql, (err, result) => {
@@ -82,7 +83,7 @@ app.patch('/:productId', verifyToken, (req, res) => {
 });
 
 
-app.delete('/:productId', verifyToken, (req, res) => {
+app.delete('/:productId', verifyToken, verifyAdmin, (req, res) => {
   const id = req.params.productId;
     const sql = `DELETE FROM base_resto.products WHERE productsId = ${id}`;
     db.query(sql, (err, result) => {
