@@ -13,13 +13,12 @@ app.post('/login', (req, res) => {
     let authEmail = req.body.email;
     let sql = `SELECT * FROM base_resto.users WHERE email = '${authEmail}'`;
     console.log(authEmail)
-    db.query(sql, (err, result) => {
-      console.log(result);
+    db.query(sql, (dberr, result) => {
       if(result[0].email != authEmail){
-        console.log(res);
         res.status(401).json({
           // wrong Email
-          message: 'Unauthorized, wrong Email Or password'
+          message: 'Unauthorized, wrong Email Or password',
+          list: dberr
         });
       } else {
         bcrypt.compare(`${req.body.password}`, `${result[0].password}`, function(bcryptErr, resultCompare) {

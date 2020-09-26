@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const db = require('../../SQL/SQLRoutes');
 const bcrypt = require('bcrypt');
 const verifyToken = require('../../middlewares/middlewares');
+const verifyAdmin = require('../../middlewares/middlewares')
+
 
 const saltRounds = 12;
 
@@ -32,10 +34,9 @@ const adminUsers = [
     admin: true
   }
 ]
-
+//  verifyToken, verifyAdmin,
 //EMP to get all the uses '/Users'
-app.get('/', verifyToken, (req, res) => {
-  try{
+app.get('/', verifyToken, verifyAdmin, (req, res) => {
     let sql = 'SELECT * FROM base_resto.users';
     db.query(sql, (err, result) => {
       if(err){
@@ -49,12 +50,8 @@ app.get('/', verifyToken, (req, res) => {
         });  
       }
     });
-  }catch (err){
-    res.json({
-      message: 'Error verifying the User, you dont have access'
-    })
   }
-});
+);
 
 // EMP to get info by ID
 app.get("/:userId", verifyToken, (req, res) => {
