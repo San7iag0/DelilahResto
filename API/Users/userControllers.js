@@ -54,7 +54,7 @@ app.get('/', verifyToken, verifyAdmin, (req, res) => {
 );
 
 // EMP to get info by ID
-app.get("/:userId", verifyToken, (req, res) => {
+app.get("/:userId", verifyToken, verifyAdmin, (req, res) => {
     const id = req.params.userId;
     let sql = `SELECT * FROM base_resto.users WHERE userId = ${id}`; 
     db.query(sql, (err, result) => {
@@ -72,7 +72,7 @@ app.get("/:userId", verifyToken, (req, res) => {
 });
 
 // EMP to created Users
-app.post('/create', (req, res) => { 
+app.post('/create', verifyAdmin, (req, res) => { 
   bcrypt.hash(`${req.body.password}`, saltRounds, function (err, hash) {   
     let sql = `INSERT INTO base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}', password = '${hash}', admin = ${req.body.admin}`;
     db.query(sql, (dberr,  result) => {
@@ -91,7 +91,7 @@ app.post('/create', (req, res) => {
 });
 
 //  EMP to update users
-app.patch('/:userId', verifyToken, (req, res) => {
+app.patch('/:userId', verifyToken, verifyAdmin, (req, res) => {
   const id = req.params.userId;
   let sql = `UPDATE base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}' 
   WHERE userId = ${id}`;
@@ -110,7 +110,7 @@ app.patch('/:userId', verifyToken, (req, res) => {
 });
 
 // EMP to Delete users
-app.delete('/:userId', verifyToken, (req, res) => {
+app.delete('/:userId', verifyToken, verifyAdmin, (req, res) => {
   const id = req.params.userId;
   const sql = `DELETE FROM base_resto.users WHERE userId  = ${id}`;
   db.query(sql, (err, result) => {
