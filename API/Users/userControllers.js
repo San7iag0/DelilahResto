@@ -16,15 +16,6 @@ app.use(bodyParser.json());
 
 const adminUsers = [
   {
-    userName: "santi",
-    fullName: "Beja ",
-    email: "santi@email.com",
-    phone: 345678,
-    address: "123 fake st",
-    password: 123456,
-    admin: true
-  },
-  {
     userName: "Pepita",
     fullName: "smith",
     email: "pep@email.com",
@@ -34,9 +25,9 @@ const adminUsers = [
     admin: true
   }
 ]
-//  verifyToken, verifyAdmin,
+
 //EMP to get all the uses '/Users'
-app.get('/', verifyToken, verifyAdmin, (req, res) => {
+app.get('/', verifyAdmin, (req, res) => {
     let sql = 'SELECT * FROM base_resto.users';
     db.query(sql, (err, result) => {
       if(err){
@@ -72,13 +63,14 @@ app.get("/:userId", verifyToken, verifyAdmin, (req, res) => {
 });
 
 // EMP to created Users
-app.post('/create', verifyAdmin, (req, res) => { 
+app.post('/create', (req, res) => { 
   bcrypt.hash(`${req.body.password}`, saltRounds, function (err, hash) {   
     let sql = `INSERT INTO base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}', password = '${hash}', admin = ${req.body.admin}`;
     db.query(sql, (dberr,  result) => {
       if(dberr){
           res.status(400).json({
-          message: 'bad resquest'
+          message: 'bad resquest',
+          list: dberr
         });
       } else {
         res.status(200).json({
@@ -93,7 +85,7 @@ app.post('/create', verifyAdmin, (req, res) => {
 //  EMP to update users
 app.patch('/:userId', verifyToken, verifyAdmin, (req, res) => {
   const id = req.params.userId;
-  let sql = `UPDATE base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}' 
+  let sql = `UPDATE base_resto.users SET userName = '${req.body.userName}', fullName = '${req.body.fullName}', email = '${req.body.email}', phone = ${req.body.phone}, address = '${req.body.address}', admin = '${req.body.admin}'
   WHERE userId = ${id}`;
     db.query(sql, (err, result) => {
       if(err){

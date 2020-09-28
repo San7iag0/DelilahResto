@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // EMP to get all orders list
 // handle GET request to /oders/...
-app.get("/", verifyToken, verifyAdmin, (req, res) =>{
+app.get("/", verifyAdmin, (req, res) =>{
     let sql = 'SELECT * FROM base_resto.orders';
     db.query(sql, (err, result) => {
         if(err){
@@ -25,7 +25,7 @@ app.get("/", verifyToken, verifyAdmin, (req, res) =>{
 });
 
 // EMP to get orders by userId
-app.get("/:userId", verifyToken, verifyAdmin, (req, res) => {
+app.get("/user/:userId", verifyAdmin, (req, res) => {
     const id = req.params.userId;
         let sql = `SELECT * FROM base_resto.orders WHERE userId = ${id}`;
         db.query(sql, (err, result) => {
@@ -42,7 +42,7 @@ app.get("/:userId", verifyToken, verifyAdmin, (req, res) => {
 
 
 // EMP to create orders
-app.post('/create', verifyToken, verifyAdmin, (req, res) => {
+app.post('/create', verifyAdmin, (req, res) => {
     const userId = req.body.userId;
         let sql = `INSERT INTO base_resto.orders SET products = "${req.body.products}", address = "${req.body.address}", userId = ${userId}`;
         db.query(sql, (err, result) => {
@@ -60,7 +60,7 @@ app.post('/create', verifyToken, verifyAdmin, (req, res) => {
 });
 
 
-app.patch('/update/:orderId', verifyToken, verifyAdmin, (req, res) => {
+app.patch('/update/:orderId', verifyAdmin, (req, res) => {
     const id = req.params.orderId;
         let sql = `UPDATE base_resto.orders SET products = "${req.body.products}", address = "${req.body.address}" WHERE orderId = ${id}`;
         db.query(sql, (err, result) => {
@@ -80,7 +80,7 @@ app.patch('/update/:orderId', verifyToken, verifyAdmin, (req, res) => {
 
 
 // EMP TO DELETE ODERS
-app.delete('/delete/:orderId', verifyToken, verifyAdmin, (req, res) => {
+app.delete('/delete/:orderId', verifyAdmin, (req, res) => {
     const id = req.params.orderId;
         let sql = `DELETE FROM base_resto.orders WHERE orderId = ${id}`;
         db.query(sql, (err, result) => {

@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require('body-parser')
-const mysql = require('mysql');
 
 
 // END TO HANDLE ERRORS
@@ -13,10 +12,10 @@ app.use(function (err, req, res, next){
     next();
   });
 
-const productRoutes = require("./API/Product/productControllers.js");
-const orderRoutes  = require("./API/Order/orderControllers");
-const usersRoutes = require("./API/Users/userControllers");
-const usersControllers = require("./API/Users/userControllersLogin");
+const productControllers = require("./API/Product/productControllers.js");
+const orderControllers  = require("./API/Order/orderControllers");
+const usersControllers = require("./API/Users/userControllers");
+const usersControllersLogin = require("./API/Users/userControllersLogin");
 
 app.unsubscribe((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*"); 
@@ -32,10 +31,10 @@ app.unsubscribe(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //routes to handle reqeusts 
-app.use("/products", productRoutes);
-app.use("/users", usersRoutes);
-app.use("/orders", orderRoutes);
-app.use("/userControllers", usersControllers);
+app.use("/products", productControllers);
+app.use("/users", usersControllers);
+app.use("/orders", orderControllers);
+app.use("/userControllers", usersControllersLogin);
 
 
 module.exports = app; 

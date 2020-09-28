@@ -17,11 +17,10 @@ app.post('/login', (req, res) => {
       if(result[0].email != authEmail){
         res.status(401).json({
           // wrong Email
-          message: 'Unauthorized, wrong Email Or password',
-          list: dberr
+          message: 'Unauthorized, wrong Email Or password'
         });
       } else {
-        bcrypt.compare(`${req.body.password}`, `${result[0].password}`, function(bcryptErr, resultCompare) {
+        bcrypt.compare( `${ req.body.password }`, `${ result[0].password }`, function( bcryptErr, resultCompare ) {
           if(resultCompare !== true){
             res.status(403).json({
               list: bcryptErr,

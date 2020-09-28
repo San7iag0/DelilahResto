@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 //EMP to get the product list 
-app.get("/", (req, res) => {
+app.get("/", verifyToken, (req, res) => {
     let sql = 'SELECT * FROM base_resto.products;';
     db.query(sql, (err, result) => {
       if(err){
