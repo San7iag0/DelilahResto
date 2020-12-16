@@ -12,7 +12,6 @@ app.use(bodyPaser.json());
 app.post('/login', (req, res) => {
     let authEmail = req.body.email;
     let sql = `SELECT * FROM base_resto.users WHERE email = '${authEmail}'`;
-    console.log(authEmail)
     db.query(sql, (dberr, result) => {
       if(result[0].email != authEmail){
         res.status(401).json({
